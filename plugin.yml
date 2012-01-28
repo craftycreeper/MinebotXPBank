@@ -1,0 +1,8 @@
+name: MinebotXPBank
+main: net.minebot.xpbank.MinebotXPBank
+version: 0.1
+commands:
+    xpbank:
+        description: xpbank command
+        usage: |
+            /xpbank help
