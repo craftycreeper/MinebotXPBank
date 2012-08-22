@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MinebotXPBank extends JavaPlugin {
@@ -31,7 +32,10 @@ public class MinebotXPBank extends JavaPlugin {
 		}
 		
 		//Command
-		getCommand("xpbank").setExecutor(new MinebotXPBankCommand(this));
+		getCommand("xpbank").setExecutor(new XPBankCommand(this));
+		
+		//Death listener for drop XP
+		getServer().getPluginManager().registerEvents(new XPDropListener(), this);
 		
 		getLogger().info("Version " + getDescription().getVersion() + " enabled.");
 	}
@@ -62,6 +66,29 @@ public class MinebotXPBank extends JavaPlugin {
 	public static void initAccount(String name) {
 		accounts.set(name, 0);
 		saveAccounts();
+	}
+	
+	public static int calculateXP(Player p) {
+		int xp = 0;
+		
+		for (int i = 1; i <= p.getLevel(); i++) {
+			if (i < 17)
+				xp += 17;
+			else
+				xp += ((i - 16) * 3) + 17;
+		}
+		
+		int xpToNext = 0;
+		int nextLevel = p.getLevel() + 1;
+		
+		if (nextLevel < 17)
+			xpToNext = 17;
+		else
+			xpToNext = ((nextLevel - 16) * 3) + 17;
+		
+		int nextXP = (int)Math.floor(p.getExp() * xpToNext);
+		
+		return xp + nextXP;
 	}
 	
 }
