@@ -1,8 +1,13 @@
 name: MinebotXPBank
 main: net.minebot.xpbank.MinebotXPBank
-version: 0.1
+version: 0.2
 commands:
     xpbank:
         description: xpbank command
+        permission: xpbank.use
         usage: |
             /xpbank help
+permissions:
+    xpbank.use:
+        description: Allows use of /xpbank
+        default: op
